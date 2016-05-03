@@ -21,24 +21,19 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 ## Basic Configuration
 
 1. Create a new user named grader and grant this user sudo permissions.
-
 	1. Add user grader
-	
     	```
 		$ sudo adduser grader
     	```
     
     1. Grant grader sudo permissions
-    
     	Add text 'grader ALL=(ALL) NOPASSWD:ALL' to graders file in sudoers directory
-    
         ```
 		$ sudo cp /etc/sudoers.d/vagrant /etc/sudoers.d/grader
 		$ sudo nano /etc/sudoers.d/grader
     	```
     	
     1. Allow user grader to log in via ssh to the server
-    
 		Create grader's .ssh folder and change the owner/group to grader
 		
 		```
@@ -46,9 +41,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 		$ chgrp grader .ssh
 		$ chown grader .ssh
     	```
-    	
     	Copy root's public key to grader's .ssh folder and change the owner/group to grader, and set the permissions
-    	
     	```
 		$ cp /root/.ssh/authorized_keys /home/grader/.ssh/authorized_keys
 		$ chown grader authorized_keys
@@ -56,46 +49,34 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 		$ chmod 700 .ssh
 		$ chmod 644 .ssh/authorized_keys
     	``` 	
-    	
-     1. Force ssh log in with keypair
-     
+    1. Force ssh log in with keypair
      	Change PasswordAuthentication to no and restart the ssh service
-    
 		```
 		$ sudo nano /etc/ssh/sshd_config
 		$ sudo service ssh restart
     	```
-    	
-     1. Test grader ssh login
-     
+
+    1. Test grader ssh login
     	```
 		$ ssh grader@52.32.98.214 -i ~/.ssh/linuxCourse
     	```	
 
 1. Update all currently installed packages.
-
      1. Update the available package list
-     
     	```
 		$ sudo apt-get update
     	```	
-    	
      1. Upgrade the available packages
-     
     	```
 		$ sudo apt-get upgrade
     	```	
-    	
      1. Automatically remove unneeded packages
-     
     	```
 		$ sudo apt-get autoremove
     	```	
 
 1. Configure the local timezone to UTC.
-
      1. Check what the current server timezone is with the date command
-     
     	```
 		$ date
     	```
