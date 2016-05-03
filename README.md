@@ -27,6 +27,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     	```
     
     1. Grant grader sudo permissions
+    
     	Add text 'grader ALL=(ALL) NOPASSWD:ALL' to graders file in sudoers directory
         ```
 		$ sudo cp /etc/sudoers.d/vagrant /etc/sudoers.d/grader
@@ -34,6 +35,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     	```
     	
     1. Allow user grader to log in via ssh to the server
+    
 		Create grader's .ssh folder and change the owner/group to grader
 		
 		```
@@ -50,6 +52,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 		$ chmod 644 .ssh/authorized_keys
     	``` 	
     1. Force ssh log in with keypair
+    
      	Change PasswordAuthentication to no and restart the ssh service
 		```
 		$ sudo nano /etc/ssh/sshd_config
