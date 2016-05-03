@@ -20,7 +20,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 
 ## Basic Configuration
 
-1. Create a new user named grader and grant this user sudo permissions.
+1. **Create a new user named grader and grant this user sudo permissions.**
 	1. Add user grader
     	```
 		$ sudo adduser grader
@@ -61,7 +61,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 		$ ssh grader@52.32.98.214 -i ~/.ssh/linuxCourse
     	```	
 
-1. Update all currently installed packages.
+1. **Update all currently installed packages.**
      1. Update the available package list
      
     	```
@@ -78,7 +78,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 		$ sudo apt-get autoremove
     	```	
 
-1. Configure the local timezone to UTC.
+1. **Configure the local timezone to UTC.**
      1. Check what the current server timezone is with the date command
      
     	```
