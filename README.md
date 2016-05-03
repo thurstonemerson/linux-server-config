@@ -90,4 +90,28 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     	
     	This told me that the date was already UTC time. If it had not been UTC, I could have
     	changed it with the command 'sudo dpkg-reconfigure tzdata'
+    	
+1. **Configure the firewall** 
+
+	1. Change the SSH port from 22 to 2200
+
+	```
+	$ sudo nano /etc/ssh/sshd_config
+	$ sudo service ssh restart
+	```
+	
+	1. Configure firewall to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+
+	```
+	$ sudo ufw status
+	$ sudo ufw default deny incoming
+	$ sudo ufw default allow outgoing
+	$ sudo ufw allow ssh
+	$ sudo ufw allow 2200/tcp
+	$ sudo ufw allow 80/tcp
+	$ sudo ufw allow ntp
+	$ sudo ufw show added
+	$ sudo ufw enable
+	$ sudo ufw status
+	```
 		
