@@ -63,23 +63,28 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 
 1. Update all currently installed packages.
      1. Update the available package list
+     
     	```
 		$ sudo apt-get update
     	```	
      1. Upgrade the available packages
+     
     	```
 		$ sudo apt-get upgrade
     	```	
      1. Automatically remove unneeded packages
+     
     	```
 		$ sudo apt-get autoremove
     	```	
 
 1. Configure the local timezone to UTC.
      1. Check what the current server timezone is with the date command
+     
     	```
 		$ date
     	```
+    	
     	This told me that the date was already UTC time. If it had not been UTC, I could have
     	changed it with the command 'sudo dpkg-reconfigure tzdata'
 		
