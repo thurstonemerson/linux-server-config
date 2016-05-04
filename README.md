@@ -284,4 +284,8 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	```
 
 1. **Configure 3rd party authentication**
+
+	- Log into Google developer console and add authorized redirect URI and javascript origins http://ec2-52-32-98-214.us-west-2.compute.amazonaws.com
+	- Log into Facebook apps and add site URL http://ec2-52-32-98-214.us-west-2.compute.amazonaws.com
+	- Log into Twitter application management and add callback URL http://ec2-52-32-98-214.us-west-2.compute.amazonaws.com
 		
