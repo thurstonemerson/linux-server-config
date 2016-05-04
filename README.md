@@ -21,75 +21,76 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 ## Basic Configuration
 
 1. **Create a new user named grader and grant this user sudo permissions.**
-	1. Add user grader
-    	```
-		$ sudo adduser grader
-    	```
+	
+	Add user grader
+	
+    ```
+	$ sudo adduser grader
+    ```
     
-    1. Grant grader sudo permissions
-    
-    	Add text 'grader ALL=(ALL) NOPASSWD:ALL' to graders file in sudoers directory
-        ```
-		$ sudo cp /etc/sudoers.d/vagrant /etc/sudoers.d/grader
-		$ sudo nano /etc/sudoers.d/grader
-    	```
+    Grant grader sudo permissions by adding  text 'grader ALL=(ALL) NOPASSWD:ALL' to graders file in sudoers directory
+    ```
+	$ sudo cp /etc/sudoers.d/vagrant /etc/sudoers.d/grader
+	$ sudo nano /etc/sudoers.d/grader
+    ```
     	
-    1. Allow user grader to log in via ssh to the server
+    Allow user grader to log in via ssh to the server. Create grader's .ssh folder and change the owner/group to grader
+	```
+	$ mkdir .ssh
+	$ chgrp grader .ssh
+	$ chown grader .ssh
+    ```
+    	
+    Copy root's public key to grader's .ssh folder and change the owner/group to grader, and set the permissions
+    ```
+	$ cp /root/.ssh/authorized_keys /home/grader/.ssh/authorized_keys
+	$ chown grader authorized_keys
+	$ chgrp grader authorized_keys
+	$ chmod 700 .ssh
+	$ chmod 644 .ssh/authorized_keys
+    ``` 	
     
-		Create grader's .ssh folder and change the owner/group to grader
-		
-		```
-		$ mkdir .ssh
-		$ chgrp grader .ssh
-		$ chown grader .ssh
-    	```
-    	Copy root's public key to grader's .ssh folder and change the owner/group to grader, and set the permissions
-    	```
-		$ cp /root/.ssh/authorized_keys /home/grader/.ssh/authorized_keys
-		$ chown grader authorized_keys
-		$ chgrp grader authorized_keys
-		$ chmod 700 .ssh
-		$ chmod 644 .ssh/authorized_keys
-    	``` 	
-    1. Force ssh log in with keypair
-    
-     	Change PasswordAuthentication to no and restart the ssh service
-		```
-		$ sudo nano /etc/ssh/sshd_config
-		$ sudo service ssh restart
-    	```
+ 	Force ssh log in with keypair by changing PasswordAuthentication to no and restart the ssh service
+	```
+	$ sudo nano /etc/ssh/sshd_config
+	$ sudo service ssh restart
+    ```
 
-    1. Test grader ssh login
-    	```
-		$ ssh grader@52.32.98.214 -i ~/.ssh/linuxCourse
-    	```	
+ 	Test grader ssh login
+    ```
+	$ ssh grader@52.32.98.214 -i ~/.ssh/linuxCourse
+    ```	
 
 1. **Update all currently installed packages.**
-     1. Update the available package list
+
+    Update the available package list
      
-    	```
-		$ sudo apt-get update
-    	```	
-     1. Upgrade the available packages
+    ```
+	$ sudo apt-get update
+    ```	
+    
+    Upgrade the available packages
      
-    	```
-		$ sudo apt-get upgrade
-    	```	
-     1. Automatically remove unneeded packages
+    ```
+	$ sudo apt-get upgrade
+    ```	
+    
+    Automatically remove unneeded packages
      
-    	```
-		$ sudo apt-get autoremove
-    	```	
+    ```
+	$ sudo apt-get autoremove
+    ```	
 
 1. **Configure the local timezone to UTC.**
-     1. Check what the current server timezone is with the date command
+
+    Check what the current server timezone is with the date command
      
-    	```
-		$ date
-    	```
+    ```
+	$ date
+    ```
     	
-    	This told me that the date was already UTC time. If it had not been UTC, I could have
-    	changed it with the command 'sudo dpkg-reconfigure tzdata'
+    This told me that the date was already UTC time. If it had not been UTC, I could have
+    changed it with the command 'sudo dpkg-reconfigure tzdata'
     	
 ## Configure the firewall
 
@@ -211,7 +212,13 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     ```
 	$ sudo nano /var/www/thecatalog/config.py
     ```
-
+    
+    Make sure that the apache user www-data has permission to save files in the specified location
+    
+    ```
+	$ sudo chown www-data:www-data /var/www/the-catalog/files
+    ```
+    
 1. **Configure Apache webserver to serve TheCatalog application**
 
 	Move the apache configuration file found the TheCatalog source
@@ -247,6 +254,18 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 		CustomLog ${APACHE_LOG_DIR}/access.log combined
 	</VirtualHost>
 	```
+	
+	Note that thecatalog.wsgi is already found in the catalog app source and contains the following configuration
+	
+	```
+	#!/usr/bin/python
+	import sys
+	import logging
+	logging.basicConfig(stream=sys.stderr)
+	sys.path.insert(0,"/var/www/the-catalog/")
+
+	from catalog import app as application
+	```
 
 	Enable the apache configuration file found the TheCatalog source and disable the default configuration
 	
@@ -256,7 +275,13 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ sudo service apache2 reload
     ```
     
-1. **Check AWS**
+1. **Configure hosts file for Amazon AWS**
+
+	Add the amazon url to the hosts file adding the line '127.0.0.1 localhost ec2-52-32-98-214.us-west-2.compute.amazonaws.com'
+
+	```
+	$ sudo nano /etc/hosts
+	```
 
 1. **Configure 3rd party authentication**
 		
