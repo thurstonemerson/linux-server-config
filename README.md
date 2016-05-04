@@ -143,8 +143,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 
 1. **Install and configure Git, Python and virtualenv**
 
-
-	```
+    ```
 	$ sudo apt-get install python-pip python-dev build-essential 
 	$ sudo pip install --upgrade pip 
 	$ sudo pip install --upgrade virtualenv
@@ -194,15 +193,70 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     
 1. **Copy the application to the apache www directory**
 
+	Copy both the application files and the python virtual environment
     ```
-	$ sudo cp -avf thecatalog /var/www/thecatalog
+	$ sudo cp -avfr ~/the-catalog /var/www/the-catalog
+	$ sudo cp -avfr ~/virtualenvs/the-catalog /var/www/the-catalog/env
     ```
     
     Remove the .git directory
     
     ```
-	$ cd /var/www/thecatalog
+	$ cd /var/www/the-catalog
 	$ sudo rm -rf .git
     ```
     
+    Configure the application to save files in the correct directory by modifying the UPLOAD_FOLDER parameter to '/var/www/the-catalog/files'
+
+    ```
+	$ sudo nano /var/www/thecatalog/config.py
+    ```
+
+1. **Configure Apache webserver to serve TheCatalog application**
+
+	Move the apache configuration file found the TheCatalog source
+	
+	```
+	$ sudo mv /var/www/thecatalog/the-catalog.conf /etc/apache2/sites-available/the-catalog.conf
+    ```
+    
+    This file contains the following configuration. Note the addition of a server alias pointing
+    to the amazonaws url and the WSGIDaemonProcess has a python path pointing to the virtual environnment.
+    For this application it is required to configure apache to pass on the authentication header (WSGIPAssAuthorization).
+    
+    ```
+    <VirtualHost *:80>
+		ServerName 52.32.98.214
+		ServerAdmin admin@52.32.98.214
+		ServerAlias http://ec2-52-32-98-214.us-west-2.compute.amazonaws.com
+    	WSGIDaemonProcess the-catalog python-path=/var/www/the-catalog:/var/www/the-catalog/env/lib/python2.7/site-packages
+    	WSGIProcessGroup the-catalog 
+		WSGIPAssAuthorization On
+		WSGIScriptAlias / /var/www/the-catalog/thecatalog.wsgi
+		<Directory /var/www/the-catalog/catalog/>
+			Order allow,deny
+			Allow from all
+		</Directory>
+		Alias /static /var/www/the-catalog/catalog/static
+		<Directory /var/www/the-catalog/catalog/static/>
+			Order allow,deny
+			Allow from all
+		</Directory>
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+		LogLevel warn
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
+	</VirtualHost>
+	```
+
+	Enable the apache configuration file found the TheCatalog source and disable the default configuration
+	
+	```
+	$ sudo a2ensite the-catalog
+	$ sudo a2dissite 000-default.conf
+	$ sudo service apache2 reload
+    ```
+    
+1. **Check AWS**
+
+1. **Configure 3rd party authentication**
 		
