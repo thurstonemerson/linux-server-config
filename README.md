@@ -1,4 +1,4 @@
-# Linux Server Configuration (Ubuntu) for Amazon AWS
+# Linux Server Configuration for Amazon AWS
 
 The following instructions detail the configuration of an [Ubuntu](http://www.ubuntu.com/) server (Amazon AWS Ec2 instance) including installation of
 applications and securing the firewall. Web application [TheCatalog](https://github.com/thurstonemerson/the-catalog) is installed to an [Apache](https://httpd.apache.org/) web server. 
