@@ -93,14 +93,14 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     	
 ## Configure the firewall
 
-	1. Change the SSH port from 22 to 2200
+1. **Change the SSH port from 22 to 2200**
 
 	```
 	$ sudo nano /etc/ssh/sshd_config
 	$ sudo service ssh restart
 	```
 	
-	1. Configure firewall to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)
+1. **Configure firewall to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123)**
 
 	```
 	$ sudo ufw status
@@ -117,7 +117,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	
 ## Install TheCatalog application and configure
 
-1. Install Apache webserver
+1. **Install Apache webserver**
 
 	Install necessary modules for apache, enable mod wsgi 
 	```
@@ -126,7 +126,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     $ sudo a2enmod wsgi
 	```
 
-1. Install and configure PostgreSQL
+1. **Install and configure PostgreSQL**
 
 	Install necessary modules for PostgreSQL
 	```
@@ -141,7 +141,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ \password
 	```
 
-1. Install and configure Git, Python and virtualenv
+1. **Install and configure Git, Python and virtualenv**
 
 
 	```
@@ -150,7 +150,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ sudo pip install --upgrade virtualenv
 	```
 	
-1. Setup the virtual environment for TheCatalog application
+1. **Setup the virtual environment for TheCatalog application**
 
 	```
 	$ sudo pip install virtualenvwrapper
@@ -162,7 +162,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ mkvirtualenv the-catalog
 	```
 	
-1. Install TheCatalog application
+1. **Install TheCatalog application**
 
 	Clone TheCatalog application from github
 	
@@ -176,7 +176,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ pip install -r requirements.txt
 	```
 	
-1. Setup PostgreSQL database for the application
+1. **Setup PostgreSQL database for the application**
 
 	Run the database setup script to create the database and unique catalog user for connecting to the database
 
@@ -192,7 +192,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ python catalog_seed_database.py
     ```
     
-1. Copy the application to the apache www directory
+1. **Copy the application to the apache www directory**
 
     ```
 	$ sudo cp -avf thecatalog /var/www/thecatalog
