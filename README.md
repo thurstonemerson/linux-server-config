@@ -221,7 +221,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     
 1. **Configure Apache webserver to serve TheCatalog application**
 
-	Move the apache configuration file found the TheCatalog source
+	Move the apache configuration file from the TheCatalog source
 	
 	```
 	$ sudo mv /var/www/thecatalog/the-catalog.conf /etc/apache2/sites-available/the-catalog.conf
