@@ -28,10 +28,15 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ sudo adduser grader
     ```
     
-    Grant grader sudo permissions by adding  text 'grader ALL=(ALL) NOPASSWD:ALL' to graders file in sudoers directory
+    Add password for user grader
     ```
-	$ sudo cp /etc/sudoers.d/vagrant /etc/sudoers.d/grader
-	$ sudo nano /etc/sudoers.d/grader
+	$ passwd grader
+    ```
+    
+    Grant grader sudo permissions (with password) by adding  text 'grader ALL=(ALL) ALL' to graders file in sudoers directory
+    ```
+	$ sudo touch /etc/sudoers.d/grader
+	$ sudo visudo -f /etc/sudoers.d/grader
     ```
     	
     Allow user grader to log in via ssh to the server. Create grader's .ssh folder and change the owner/group to grader
@@ -289,3 +294,10 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	- Log into Facebook apps and add site URL http://ec2-52-32-98-214.us-west-2.compute.amazonaws.com
 	- Log into Twitter application management and add callback URL http://ec2-52-32-98-214.us-west-2.compute.amazonaws.com
 		
+1. **Disable root login over ssh**
+
+	Disable the root login over ssh and allow the grader user by setting PermitRootLogin to no and AllowUsers to grader. Restart the ssh service
+	```
+	$ sudo nano /etc/ssh/sshd_config
+	$ sudo service ssh restart
+    ```
