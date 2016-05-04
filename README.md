@@ -91,7 +91,7 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
     	This told me that the date was already UTC time. If it had not been UTC, I could have
     	changed it with the command 'sudo dpkg-reconfigure tzdata'
     	
-1. **Configure the firewall** 
+## Configure the firewall
 
 	1. Change the SSH port from 22 to 2200
 
@@ -114,4 +114,95 @@ $ ssh -p 2200 -i ~/.ssh/udacity_key.rsa grader@52.32.98.214
 	$ sudo ufw enable
 	$ sudo ufw status
 	```
+	
+## Install TheCatalog application and configure
+
+1. Install Apache webserver
+
+	Install necessary modules for apache, enable mod wsgi 
+	```
+	$ sudo apt-get install apache2
+    $ sudo apt-get install libapache2-mod-wsgi
+    $ sudo a2enmod wsgi
+	```
+
+1. Install and configure PostgreSQL
+
+	Install necessary modules for PostgreSQL
+	```
+	$ sudo apt-get install postgresql
+	$ sudo apt-get install python-psycopg2
+	$ sudo apt-get install libpq-dev
+	```
+	
+	Setup postgres user and add a password
+	```	
+	$ sudo -u postgres psql postgres
+	$ \password
+	```
+
+1. Install and configure Git, Python and virtualenv
+
+
+	```
+	$ sudo apt-get install python-pip python-dev build-essential 
+	$ sudo pip install --upgrade pip 
+	$ sudo pip install --upgrade virtualenv
+	```
+	
+1. Setup the virtual environment for TheCatalog application
+
+	```
+	$ sudo pip install virtualenvwrapper
+	$ mkdir ~/virtualenvs
+	$ echo "export WORKON_HOME=~/virtualenvs" >> ~/.bashrc
+	$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+	$ echo "export PIP_VIRTUALENV_BASE=~/virtualenvs" >> ~/.bashrc
+	$ source ~/.bashrc
+	$ mkvirtualenv the-catalog
+	```
+	
+1. Install TheCatalog application
+
+	Clone TheCatalog application from github
+	
+	```
+	$ git clone https://github.com/thurstonemerson/the-catalog.git
+	```
+	
+	Install the requirements for the catalog application
+	
+	```
+	$ pip install -r requirements.txt
+	```
+	
+1. Setup PostgreSQL database for the application
+
+	Run the database setup script to create the database and unique catalog user for connecting to the database
+
+    ```
+	$ sudo su postgres
+	$ psql 
+	$ \i catalog_create_database.sql
+    ```
+    
+    Seed the database with the provided python script
+
+    ```
+	$ python catalog_seed_database.py
+    ```
+    
+1. Copy the application to the apache www directory
+
+    ```
+	$ sudo cp -avf thecatalog /var/www/thecatalog
+    ```
+    
+    Remove the .git directory
+    
+    ```
+	$ cd /var/www/thecatalog
+	$ sudo rm -rf .git
+    ```
+    
 		
